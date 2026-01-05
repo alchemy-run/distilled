@@ -150,15 +150,39 @@ export const isThrottlingError = (error: unknown): boolean => {
 };
 
 export interface TransientError {}
+
+/**
+ * Check if an error is an HttpClientError transport error (network failure).
+ * These come from @effect/platform's HttpClient when there's a connection issue.
+ */
+export const isHttpClientTransportError = (error: unknown): boolean => {
+  if (
+    Predicate.isObject(error) &&
+    "_tag" in error &&
+    error._tag === "RequestError" &&
+    "reason" in error &&
+    error.reason === "Transport"
+  ) {
+    return true;
+  }
+  return false;
+};
+
 /**
  * Check if an error is a transient error that should be automatically retried.
  * Checks for:
  * 1. Smithy's @retryable trait (via withRetryable)
  * 2. THROTTLING_ERROR, SERVER_ERROR, or NETWORK_ERROR categories
+ * 3. HttpClientError transport errors (network failures from @effect/platform)
  */
 export const isTransientError = <E>(error: E): error is E & TransientError => {
   // Check for retryable trait first (Smithy's @retryable)
   if (isRetryable(error)) {
+    return true;
+  }
+
+  // Check for HttpClient transport errors (network failures)
+  if (isHttpClientTransportError(error)) {
     return true;
   }
 

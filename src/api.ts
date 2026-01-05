@@ -1,3 +1,5 @@
+import type { HttpClientError } from "@effect/platform";
+import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
 import { AwsV4Signer } from "aws4fetch";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
@@ -8,12 +10,7 @@ import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import { Credentials } from "./aws/credentials.ts";
 import { Endpoint } from "./aws/endpoint.ts";
-import {
-  isTransientNetworkError,
-  TransientFetchError,
-  UnknownAwsError,
-  type CommonAwsError,
-} from "./aws/errors.ts";
+import { UnknownAwsError, type CommonAwsError } from "./aws/errors.ts";
 import { Region } from "./aws/region.ts";
 import type { Operation } from "./operation.ts";
 import { makeRequestBuilder } from "./request-builder.ts";
@@ -36,10 +33,10 @@ export const make = <Op extends Operation>(
   | ParseResult.ParseError
   | UnknownAwsError
   | CommonAwsError
-  | TransientFetchError
+  | HttpClientError.HttpClientError
   | EndpointError
   | NoMatchingRuleError,
-  Region | Credentials
+  Region | Credentials | HttpClient.HttpClient
 >) => {
   const op = initOperation();
   let _init;
@@ -158,78 +155,81 @@ export const make = <Op extends Operation>(
     });
     const signedRequest = yield* Effect.promise(() => signer.sign());
 
-    // Determine the body for fetch
-    // For streaming bodies, use the original request.body (not from signedRequest)
-    let fetchBody: BodyInit | undefined;
+    // Build headers object from signed request
+    const signedHeaders: Record<string, string> = {};
+    signedRequest.headers.forEach((value, key) => {
+      signedHeaders[key] = value;
+    });
 
+    // Get content type from signed headers for body constructor
+    const contentType = signedHeaders["content-type"];
+
+    // Build HttpBody based on body type
+    // We must pass the content type to avoid HttpBody overriding the signed Content-Type header
+    let httpBody: HttpBody.HttpBody;
     if (isStreamingBody) {
-      // Streaming body was not passed to signer, use original
-      fetchBody = resolvedRequest.body as ReadableStream;
-    } else if (signedRequest.body) {
-      if (typeof signedRequest.body === "string") {
-        fetchBody = signedRequest.body;
-      } else if (
-        signedRequest.body instanceof Uint8Array ||
-        signedRequest.body instanceof ArrayBuffer
-      ) {
-        fetchBody = signedRequest.body;
-      } else if (signedRequest.body instanceof ReadableStream) {
-        fetchBody = signedRequest.body;
-      }
+      // Convert ReadableStream to Effect Stream for HttpClient
+      const effectStream = Stream.fromReadableStream(
+        () => resolvedRequest.body as ReadableStream<Uint8Array>,
+        (error) => new Error(String(error)),
+      );
+      httpBody = HttpBody.stream(effectStream, contentType);
+    } else if (resolvedRequest.body === undefined) {
+      httpBody = HttpBody.empty;
+    } else if (typeof resolvedRequest.body === "string") {
+      httpBody = HttpBody.text(resolvedRequest.body, contentType);
+    } else if (resolvedRequest.body instanceof Uint8Array) {
+      httpBody = HttpBody.uint8Array(resolvedRequest.body, contentType);
+    } else {
+      httpBody = HttpBody.empty;
     }
 
-    // Build headers object for fetch
-    const fetchHeaders: Record<string, string> = {};
-    signedRequest.headers.forEach((value, key) => {
-      fetchHeaders[key] = value;
-    });
+    // Build HttpClientRequest
+    // Note: setBody must come after setHeaders because setBody adds content-type/content-length
+    // from the HttpBody, which should match our signed headers
+    const httpRequest = pipe(
+      HttpClientRequest.make(
+        resolvedRequest.method as
+          | "GET"
+          | "POST"
+          | "PUT"
+          | "DELETE"
+          | "PATCH"
+          | "HEAD"
+          | "OPTIONS",
+      )(signedRequest.url),
+      HttpClientRequest.setHeaders(signedHeaders),
+      HttpClientRequest.setBody(httpBody),
+    );
 
-    // Make the fetch request with full control
-    // The signal from Effect.tryPromise enables proper interruption
-    const rawResponse = yield* Effect.tryPromise({
-      try: (signal) =>
-        fetch(signedRequest.url, {
-          method: signedRequest.method,
-          headers: fetchHeaders,
-          body: fetchBody,
-          signal, // Propagate abort signal for Effect interruption
-          // Enable streaming uploads - required for ReadableStream bodies
-          ...(isStreamingBody ? { duplex: "half" as const } : {}),
-        } as RequestInit),
-      catch: (error) => {
-        // Check if this is a transient network error that should be retried
-        if (isTransientNetworkError(error)) {
-          return new TransientFetchError({
-            message: `Fetch error: ${error}`,
-            cause: error,
-          });
-        }
-        return new Error(`Fetch error: ${error}`);
-      },
-    });
+    // Execute request via HttpClient
+    const client = yield* HttpClient.HttpClient;
+    const rawResponse = yield* client.execute(httpRequest);
 
     yield* Effect.logDebug("Raw Response Status", rawResponse.status);
 
     // Convert response headers to Record
-    const responseHeaders: Record<string, string> = {};
-    rawResponse.headers.forEach((value, key) => {
-      responseHeaders[key] = value;
-    });
+    const responseHeaders = rawResponse.headers as Record<string, string>;
 
     // Create response body stream
+    // Convert Effect Stream to ReadableStream for the response parser
+    // Note: HEAD requests never have a body, and some responses have no body (204, etc.)
+    // Effect's HttpClientResponse.stream throws an error for empty bodies, so we need to check first
     const contentLength = responseHeaders["content-length"];
-    const isEmptyBody = contentLength === "0" || rawResponse.status === 204;
+    const isEmptyBody =
+      resolvedRequest.method === "HEAD" ||
+      contentLength === "0" ||
+      rawResponse.status === 204;
     const responseBody = isEmptyBody
       ? new ReadableStream<Uint8Array>({ start: (c) => c.close() })
-      : (rawResponse.body ??
-        new ReadableStream<Uint8Array>({ start: (c) => c.close() }));
+      : yield* Stream.toReadableStreamEffect(rawResponse.stream);
 
     // Parse response using the response parser
     // Handles both success (protocol deserialization + schema decoding)
     // and error responses (error deserialization + schema matching)
     const parsed = yield* parseResponse({
       status: rawResponse.status,
-      statusText: rawResponse.statusText,
+      statusText: "OK",
       headers: responseHeaders,
       body: responseBody,
     });
@@ -274,7 +274,7 @@ type PaginatedErrors =
   | ParseResult.ParseError
   | UnknownAwsError
   | CommonAwsError
-  | TransientFetchError
+  | HttpClientError.HttpClientError
   | EndpointError
   | NoMatchingRuleError;
 
@@ -299,7 +299,7 @@ export interface PaginatedOperation<Op extends Operation> {
   ): Effect.Effect<
     Operation.Output<Op>,
     Operation.Error<Op> | PaginatedErrors,
-    Region | Credentials
+    Region | Credentials | HttpClient.HttpClient
   >;
 
   /** Stream all pages (full response objects) */
@@ -308,7 +308,7 @@ export interface PaginatedOperation<Op extends Operation> {
   ) => Stream.Stream<
     Operation.Output<Op>,
     Operation.Error<Op> | PaginatedErrors,
-    Region | Credentials
+    Region | Credentials | HttpClient.HttpClient
   >;
 
   /** Stream individual items from the paginated field across all pages */
@@ -317,7 +317,7 @@ export interface PaginatedOperation<Op extends Operation> {
   ) => Stream.Stream<
     PaginatedItemType<Op>,
     Operation.Error<Op> | PaginatedErrors,
-    Region | Credentials
+    Region | Credentials | HttpClient.HttpClient
   >;
 
   /** The operation metadata */
@@ -344,7 +344,7 @@ export const makePaginated = <Op extends Operation>(
 
   type State = { token: unknown; done: boolean };
   type Errors = Operation.Error<Op> | PaginatedErrors;
-  type Deps = Region | Credentials;
+  type Deps = Region | Credentials | HttpClient.HttpClient;
 
   // Stream all pages (full response objects)
   const pagesFn = (
